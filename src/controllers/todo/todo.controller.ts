@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateTodoRequestDTO } from 'src/requests/todo';
-import { FindOneTodoRequestDTO } from 'src/requests/todo/find.dto';
+import { CreateTodoRequestDTO, FindOneTodoRequestDTO } from 'src/requests/todo';
 import {
   CreateTodoResponseDTO,
   FindAllTodoResponseDTO,
@@ -23,7 +22,7 @@ export class TodoController {
   }
 
   @Post()
-  create(@Body() createTodoDTO: CreateTodoRequestDTO): CreateTodoResponseDTO {
-    return this.todoService.create(createTodoDTO);
+  create(@Body() createDto: CreateTodoRequestDTO): CreateTodoResponseDTO {
+    return this.todoService.create(createDto);
   }
 }
