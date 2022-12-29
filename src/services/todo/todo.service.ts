@@ -40,10 +40,6 @@ export class TodoService {
   }
 
   create(createTodoDto: CreateTodoRequestDTO): CreateTodoResponseDTO {
-    if (typeof createTodoDto.isCompleted === 'string') {
-      createTodoDto.isCompleted =
-        createTodoDto.isCompleted === 'true' ? true : false;
-    }
     return {
       id: 'test id',
       title: createTodoDto.title,
