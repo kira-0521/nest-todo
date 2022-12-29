@@ -1,4 +1,4 @@
-export class CreateTodoResDTO {
+export class CreateTodoResponseDTO {
   id: string;
   title: string;
   isCompleted: boolean;

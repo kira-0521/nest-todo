@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateTodoDTO } from 'src/requests/todo';
-import { FindOneRequestDTO } from 'src/requests/todo/find.dto';
+import { CreateTodoRequestDTO } from 'src/requests/todo';
+import { FindOneTodoRequestDTO } from 'src/requests/todo/find.dto';
 import {
-  CreateTodoResDTO,
-  FindAllResponseDTO,
-  FindOneResponseDTO,
+  CreateTodoResponseDTO,
+  FindAllTodoResponseDTO,
+  FindOneTodoResponseDTO,
 } from 'src/response/todo';
 
 import { TodoService } from 'src/services/todo/todo.service';
@@ -13,17 +13,17 @@ import { TodoService } from 'src/services/todo/todo.service';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
-  findAll(): FindAllResponseDTO {
+  findAll(): FindAllTodoResponseDTO {
     return this.todoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param() param: FindOneRequestDTO): FindOneResponseDTO {
+  findOne(@Param() param: FindOneTodoRequestDTO): FindOneTodoResponseDTO {
     return this.todoService.findOne(param.id);
   }
 
   @Post()
-  create(@Body() createTodoDTO: CreateTodoDTO): CreateTodoResDTO {
+  create(@Body() createTodoDTO: CreateTodoRequestDTO): CreateTodoResponseDTO {
     return this.todoService.create(createTodoDTO);
   }
 }

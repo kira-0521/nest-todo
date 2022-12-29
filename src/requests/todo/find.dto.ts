@@ -1,3 +1,3 @@
-export class FindOneRequestDTO {
+export class FindOneTodoRequestDTO {
   id: string;
 }

@@ -1,10 +1,10 @@
 import { Todo } from 'src/entities/todo.entity';
 
-export class FindAllResponseDTO {
+export class FindAllTodoResponseDTO {
   todos: Todo[];
 }
 
-export class FindOneResponseDTO {
+export class FindOneTodoResponseDTO {
   id: string;
   title: string;
   isCompleted: boolean;

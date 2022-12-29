@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTodoDTO } from 'src/requests/todo';
+import { CreateTodoRequestDTO } from 'src/requests/todo';
 import {
-  CreateTodoResDTO,
-  FindAllResponseDTO,
-  FindOneResponseDTO,
+  CreateTodoResponseDTO,
+  FindAllTodoResponseDTO,
+  FindOneTodoResponseDTO,
 } from 'src/response/todo';
 
 // import { TodoRepository } from 'src/repositories/todo.repository';
@@ -15,7 +15,7 @@ export class TodoService {
     return 'Hello todo with service!';
   }
 
-  findAll(): FindAllResponseDTO {
+  findAll(): FindAllTodoResponseDTO {
     return {
       todos: [
         {
@@ -29,7 +29,7 @@ export class TodoService {
     };
   }
 
-  findOne(id: string): FindOneResponseDTO {
+  findOne(id: string): FindOneTodoResponseDTO {
     return {
       id,
       title: 'test title',
@@ -39,7 +39,7 @@ export class TodoService {
     };
   }
 
-  create(createTodoDto: CreateTodoDTO): CreateTodoResDTO {
+  create(createTodoDto: CreateTodoRequestDTO): CreateTodoResponseDTO {
     if (typeof createTodoDto.isCompleted === 'string') {
       createTodoDto.isCompleted =
         createTodoDto.isCompleted === 'true' ? true : false;
