@@ -16,14 +16,9 @@ export class TodoService {
     return { todos };
   }
 
-  findOne(id: string): FindOneTodoResponseDTO {
-    return {
-      id,
-      title: 'test title',
-      isCompleted: true,
-      createdAt: 'test createdAt',
-      updatedAt: 'test updatedAt',
-    };
+  async findOne(id: string): Promise<FindOneTodoResponseDTO> {
+    const todo = await this.todoRepository.findOneBy({ id });
+    return todo;
   }
 
   create(createTodoDto: CreateTodoRequestDTO): CreateTodoResponseDTO {
