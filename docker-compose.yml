@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  api:
+    container_name: nest_todo
+    env_file:
+      - .development.env
+    build: .
+    tty: true
+    ports:
+      - "3090:3090"
+    volumes:
+      - type: bind
+        source: .
+        target: /backend
+  mysql:
+    image: mysql/mysql-server:5.7
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    env_file:
+      - .development.env
+    ports:
+      - ${DB_PORT:-3306}:3306
+    expose:
+      - ${DB_PORT:-3306}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_TCP_PORT: ${DB_PORT:-3306}
+    volumes:
+      - /var/lib/mysql
