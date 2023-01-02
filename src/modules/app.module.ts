@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'src/config/configuration';
-import { TypeOrmConfigService } from 'src/services/typeorm/type-orm-config.service';
 
 import { TodoModule } from './todo/todo.module';
 
@@ -15,7 +14,20 @@ import { TodoModule } from './todo/todo.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useClass: TypeOrmConfigService,
+      useFactory: (configService: ConfigService) => {
+        return {
+          type: 'mysql',
+          host: configService.get('db.host'),
+          port: configService.get<number>('db.port'),
+          username: configService.get('db.user'),
+          password: configService.get('db.password'),
+          database: configService.get('db.name'),
+          entities: ['dist/**/*.entity.js'],
+          synchronize: true,
+        };
+      },
+      inject: [ConfigService],
+      // useClass: TypeOrmConfigService,
     }),
   ],
   controllers: [],
