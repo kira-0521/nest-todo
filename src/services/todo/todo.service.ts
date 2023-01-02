@@ -6,27 +6,19 @@ import {
   FindOneTodoResponseDTO,
 } from 'src/response/todo';
 
-// import { TodoRepository } from 'src/repositories/todo.repository';
+import { TodoRepository } from 'src/repositories/todo.repository';
+import { Todo } from 'src/entities/todo.entity';
 
 @Injectable()
 export class TodoService {
-  // constructor(private todoRepository: TodoRepository) {}
-  hello(): string {
-    return 'Hello todo with service!';
+  constructor(private todoRepository: TodoRepository) {}
+  hello(): Promise<Todo[]> {
+    return this.todoRepository.find();
   }
 
-  findAll(): FindAllTodoResponseDTO {
-    return {
-      todos: [
-        {
-          id: 'test id',
-          title: 'test title',
-          isCompleted: true,
-          createdAt: 'test createdAt',
-          updatedAt: 'test updatedAt',
-        },
-      ],
-    };
+  async findAll(): Promise<FindAllTodoResponseDTO> {
+    const todos = await this.todoRepository.find();
+    return { todos };
   }
 
   findOne(id: string): FindOneTodoResponseDTO {

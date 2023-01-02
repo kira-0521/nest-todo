@@ -12,8 +12,8 @@ import { TodoService } from 'src/services/todo/todo.service';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
-  findAll(): FindAllTodoResponseDTO {
-    return this.todoService.findAll();
+  async findAll(): Promise<FindAllTodoResponseDTO> {
+    return await this.todoService.findAll();
   }
 
   @Get(':id')
