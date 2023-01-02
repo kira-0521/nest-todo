@@ -7,15 +7,10 @@ import {
 } from 'src/response/todo';
 
 import { TodoRepository } from 'src/repositories/todo.repository';
-import { Todo } from 'src/entities/todo.entity';
 
 @Injectable()
 export class TodoService {
   constructor(private todoRepository: TodoRepository) {}
-  hello(): Promise<Todo[]> {
-    return this.todoRepository.find();
-  }
-
   async findAll(): Promise<FindAllTodoResponseDTO> {
     const todos = await this.todoRepository.find();
     return { todos };
