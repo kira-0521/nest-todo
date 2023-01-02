@@ -17,8 +17,10 @@ export class TodoController {
   }
 
   @Get(':id')
-  findOne(@Param() param: FindOneTodoRequestDTO): FindOneTodoResponseDTO {
-    return this.todoService.findOne(param.id);
+  async findOne(
+    @Param() { id }: FindOneTodoRequestDTO,
+  ): Promise<FindOneTodoResponseDTO> {
+    return await this.todoService.findOne(id);
   }
 
   @Post()
