@@ -18,7 +18,7 @@ import { TodoModule } from './todo/todo.module';
         return {
           type: 'mysql',
           host: configService.get('db.host'),
-          port: configService.get<number>('db.port'),
+          port: configService.get('db.port'),
           username: configService.get('db.user'),
           password: configService.get('db.password'),
           database: configService.get('db.name'),
@@ -27,7 +27,6 @@ import { TodoModule } from './todo/todo.module';
         };
       },
       inject: [ConfigService],
-      // useClass: TypeOrmConfigService,
     }),
   ],
   controllers: [],
