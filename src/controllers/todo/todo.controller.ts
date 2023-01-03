@@ -1,5 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateTodoRequestDTO, FindOneTodoRequestDTO } from 'src/requests/todo';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  CreateTodoRequestDTO,
+  FindOneTodoRequestDTO,
+  UpdateTodoRequestDTO,
+} from 'src/requests/todo';
 import {
   CreateTodoResponseDTO,
   FindAllTodoResponseDTO,
@@ -28,5 +32,13 @@ export class TodoController {
     @Body() createTodoDTO: CreateTodoRequestDTO,
   ): Promise<CreateTodoResponseDTO> {
     return await this.todoService.createTodo(createTodoDTO);
+  }
+
+  @Put(':id')
+  async updateTodo(
+    @Param() param: { id: string },
+    @Body() updateTodoDTO: UpdateTodoRequestDTO,
+  ): Promise<CreateTodoResponseDTO> {
+    return await this.todoService.updateTodo(param.id, updateTodoDTO);
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { Todo } from 'src/entities/todo.entity';
 import { TodoRepository } from 'src/repositories/todo/todo.repository';
-import { CreateTodoRequestDTO } from 'src/requests/todo';
+import { CreateTodoRequestDTO, UpdateTodoRequestDTO } from 'src/requests/todo';
 import {
   CreateTodoResponseDTO,
   FindAllTodoResponseDTO,
@@ -24,5 +25,12 @@ export class TodoService {
     createTodoDTO: CreateTodoRequestDTO,
   ): Promise<CreateTodoResponseDTO> {
     return await this.todoRepository.createTodo(createTodoDTO);
+  }
+
+  async updateTodo(
+    id: string,
+    updateTodoDTO: UpdateTodoRequestDTO,
+  ): Promise<Todo> {
+    return this.todoRepository.updateTodo(id, updateTodoDTO);
   }
 }
