@@ -20,13 +20,9 @@ export class TodoService {
     return todo;
   }
 
-  create(createTodoDto: CreateTodoRequestDTO): CreateTodoResponseDTO {
-    return {
-      id: 'test id',
-      title: createTodoDto.title,
-      isCompleted: createTodoDto.isCompleted,
-      createdAt: 'test createdAt',
-      updatedAt: 'test updatedAt',
-    };
+  async createTodo(
+    createTodoDTO: CreateTodoRequestDTO,
+  ): Promise<CreateTodoResponseDTO> {
+    return await this.todoRepository.createTodo(createTodoDTO);
   }
 }
