@@ -37,7 +37,7 @@ export class TodoRepository extends Repository<Todo> {
       isCompleted: !!isCompleted,
       updatedAt: new Date().toISOString(),
     };
-    await this.save(updatedTodo);
+    await this.update(id, updatedTodo);
     return updatedTodo;
   }
 }
