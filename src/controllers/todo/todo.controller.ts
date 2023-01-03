@@ -8,6 +8,7 @@ import {
   CreateTodoResponseDTO,
   FindAllTodoResponseDTO,
   FindOneTodoResponseDTO,
+  UpdateTodoResponseDTO,
 } from 'src/response/todo';
 
 import { TodoService } from 'src/services/todo/todo.service';
@@ -38,7 +39,7 @@ export class TodoController {
   async updateTodo(
     @Param() param: { id: string },
     @Body() updateTodoDTO: UpdateTodoRequestDTO,
-  ): Promise<CreateTodoResponseDTO> {
+  ): Promise<UpdateTodoResponseDTO> {
     return await this.todoService.updateTodo(param.id, updateTodoDTO);
   }
 }
