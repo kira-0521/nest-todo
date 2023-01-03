@@ -25,8 +25,11 @@ export class TodoRepository extends Repository<Todo> {
     return newTodo;
   }
 
-  async updateTodo(updateTodoDTO: UpdateTodoRequestDTO): Promise<Todo> {
-    const { id, title, isCompleted } = updateTodoDTO;
+  async updateTodo(
+    id: string,
+    updateTodoDTO: UpdateTodoRequestDTO,
+  ): Promise<Todo> {
+    const { title, isCompleted } = updateTodoDTO;
     const currentTodo = await this.findOneBy({ id });
     const updatedTodo: Todo = {
       ...currentTodo,
