@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { TodoRepository } from 'src/repositories/todo/todo.repository';
 import { CreateTodoRequestDTO } from 'src/requests/todo';
 import {
   CreateTodoResponseDTO,
   FindAllTodoResponseDTO,
   FindOneTodoResponseDTO,
 } from 'src/response/todo';
-
-import { TodoRepository } from 'src/repositories/todo.repository';
 
 @Injectable()
 export class TodoService {
