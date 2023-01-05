@@ -1,11 +1,21 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   CreateTodoRequestDTO,
+  DeleteTodoRequestDTO,
   FindOneTodoRequestDTO,
   UpdateTodoRequestDTO,
 } from 'src/requests/todo';
 import {
   CreateTodoResponseDTO,
+  DeleteTodoResponseDTO,
   FindAllTodoResponseDTO,
   FindOneTodoResponseDTO,
   UpdateTodoResponseDTO,
@@ -41,5 +51,12 @@ export class TodoController {
     @Body() updateTodoDTO: UpdateTodoRequestDTO,
   ): Promise<UpdateTodoResponseDTO> {
     return await this.todoService.updateTodo(param.id, updateTodoDTO);
+  }
+
+  @Delete(':id')
+  async deleteTodo(
+    @Param() param: DeleteTodoRequestDTO,
+  ): Promise<DeleteTodoResponseDTO> {
+    return await this.todoService.deleteTodo(param.id);
   }
 }
