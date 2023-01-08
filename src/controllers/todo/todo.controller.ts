@@ -27,7 +27,7 @@ import {
 } from 'src/response/todo';
 
 import { TodoService } from 'src/services/todo/todo.service';
-import { editFileName } from 'src/interceptors/todo/image-file.interceptor';
+import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
 import { BASE_URL, TODO_IMAGE_FILE_PATH } from 'src/constants';
 
 @Controller('todo')
@@ -50,7 +50,7 @@ export class TodoController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: TODO_IMAGE_FILE_PATH,
-        filename: editFileName,
+        filename: generateFilename,
       }),
     }),
   )

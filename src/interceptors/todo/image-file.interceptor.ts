@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { extname } from 'path';
 
-export const editFileName = (
+export const generateFilename = (
   req: Request,
   file: Express.Multer.File,
   cb: (error: Error | null, filename: string) => void,
