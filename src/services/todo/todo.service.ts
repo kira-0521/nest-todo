@@ -24,8 +24,9 @@ export class TodoService {
 
   async createTodo(
     createTodoDTO: CreateTodoRequestDTO,
+    imagePath: string,
   ): Promise<CreateTodoResponseDTO> {
-    return await this.todoRepository.createTodo(createTodoDTO);
+    return await this.todoRepository.createTodo(createTodoDTO, imagePath);
   }
 
   async updateTodo(

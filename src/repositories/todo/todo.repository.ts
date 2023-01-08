@@ -12,12 +12,16 @@ export class TodoRepository extends Repository<Todo> {
     super(repository.target, repository.manager, repository.queryRunner);
   }
 
-  async createTodo(createTodoRequestDTO: CreateTodoRequestDTO): Promise<Todo> {
+  async createTodo(
+    createTodoRequestDTO: CreateTodoRequestDTO,
+    imagePath: string,
+  ): Promise<Todo> {
     const { title, isCompleted } = createTodoRequestDTO;
     const newTodo = this.create({
       id: uuidv4(),
       title,
       isCompleted: !!isCompleted,
+      imgUrl: imagePath,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });

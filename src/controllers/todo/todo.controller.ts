@@ -6,7 +6,12 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+
 import {
   CreateTodoRequestDTO,
   DeleteTodoRequestDTO,
@@ -22,6 +27,8 @@ import {
 } from 'src/response/todo';
 
 import { TodoService } from 'src/services/todo/todo.service';
+import { editFileName } from 'src/interceptors/todo/image-file.interceptor';
+import { BASE_URL, TODO_IMAGE_FILE_PATH } from 'src/constants';
 
 @Controller('todo')
 export class TodoController {
@@ -39,10 +46,20 @@ export class TodoController {
   }
 
   @Post()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: TODO_IMAGE_FILE_PATH,
+        filename: editFileName,
+      }),
+    }),
+  )
   async createTodo(
     @Body() createTodoDTO: CreateTodoRequestDTO,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<CreateTodoResponseDTO> {
-    return await this.todoService.createTodo(createTodoDTO);
+    const imagePath = `${BASE_URL}/${file.path}`;
+    return await this.todoService.createTodo(createTodoDTO, imagePath);
   }
 
   @Put(':id')
