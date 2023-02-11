@@ -58,7 +58,7 @@ export class TodoController {
     @Body() createTodoDTO: CreateTodoRequestDTO,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<CreateTodoResponseDTO> {
-    const imagePath = `${BASE_URL}/${file.path}`;
+    const imagePath = file?.path ? `${BASE_URL}/${file.path}` : null;
     return await this.todoService.createTodo(createTodoDTO, imagePath);
   }
 
