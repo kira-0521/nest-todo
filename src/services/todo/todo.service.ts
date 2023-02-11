@@ -13,12 +13,12 @@ import {
 export class TodoService {
   constructor(private todoRepository: TodoRepository) {}
   async findAll(): Promise<FindAllTodoResponseDTO> {
-    const todos = await this.todoRepository.find();
+    const todos = await this.todoRepository.getAllTodos();
     return { todos };
   }
 
   async findOne(id: string): Promise<FindOneTodoResponseDTO> {
-    const todo = await this.todoRepository.findOneBy({ id });
+    const todo = await this.todoRepository.getTodoDetail(id);
     return todo;
   }
 
@@ -26,7 +26,11 @@ export class TodoService {
     createTodoDTO: CreateTodoRequestDTO,
     imagePath: string,
   ): Promise<CreateTodoResponseDTO> {
-    return await this.todoRepository.createTodo(createTodoDTO, imagePath);
+    const newTodo = await this.todoRepository.createTodo(
+      createTodoDTO,
+      imagePath,
+    );
+    return new CreateTodoResponseDTO(newTodo);
   }
 
   async updateTodo(
@@ -37,8 +41,7 @@ export class TodoService {
   }
 
   async deleteTodo(id: string): Promise<DeleteTodoResponseDTO> {
-    await this.todoRepository.delete({ id });
-    const todos = await this.todoRepository.find();
+    const todos = await this.todoRepository.deleteTodo(id);
     return { todos };
   }
 }

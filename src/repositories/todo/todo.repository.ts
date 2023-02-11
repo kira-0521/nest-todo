@@ -12,6 +12,14 @@ export class TodoRepository extends Repository<Todo> {
     super(repository.target, repository.manager, repository.queryRunner);
   }
 
+  async getAllTodos(): Promise<Todo[]> {
+    return await this.find();
+  }
+
+  async getTodoDetail(id: string): Promise<Todo> {
+    return await this.findOneBy({ id });
+  }
+
   async createTodo(
     createTodoRequestDTO: CreateTodoRequestDTO,
     imagePath: string,
@@ -43,5 +51,11 @@ export class TodoRepository extends Repository<Todo> {
     };
     await this.update(id, updatedTodo);
     return updatedTodo;
+  }
+
+  async deleteTodo(id): Promise<Todo[]> {
+    await this.delete({ id });
+    const todos = await this.getAllTodos();
+    return todos;
   }
 }
