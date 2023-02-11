@@ -9,7 +9,7 @@ import { TodoModule } from './todo/todo.module';
   imports: [
     TodoModule,
     ConfigModule.forRoot({
-      envFilePath: '.development.env',
+      envFilePath: `.${process.env.NODE_ENV}.env`,
       load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
