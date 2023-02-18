@@ -1,9 +1,17 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'src/config/configuration';
+import { TodoController } from './controllers/todo/todo.controller';
+import { CorsMiddleware } from './middlewares/cors.middleware';
+import { logger } from './middlewares/logger.middleware';
 
-import { TodoModule } from './todo/todo.module';
+import { TodoModule } from './modules/todo/todo.module';
 
 @Module({
   imports: [
@@ -32,4 +40,16 @@ import { TodoModule } from './todo/todo.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CorsMiddleware)
+      .forRoutes('/')
+      .apply(logger)
+      .exclude({
+        path: '/todo/:id',
+        method: RequestMethod.DELETE,
+      })
+      .forRoutes(TodoController);
+  }
+}
