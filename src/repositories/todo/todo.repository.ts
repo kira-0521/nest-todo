@@ -4,7 +4,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Todo } from 'src/entities/todo.entity';
+import { ReturnTodoType } from 'src/@types/todo';
 import { CreateTodoRequestDTO, UpdateTodoRequestDTO } from 'src/requests/todo';
+
+const SELECTED_COLUMNS: { [k in keyof Todo]: boolean } = {
+  id: true,
+  title: true,
+  isCompleted: true,
+  imgUrl: true,
+  createdAt: false,
+  updatedAt: false,
+};
 
 @Injectable()
 export class TodoRepository extends Repository<Todo> {
@@ -12,18 +22,23 @@ export class TodoRepository extends Repository<Todo> {
     super(repository.target, repository.manager, repository.queryRunner);
   }
 
-  async getAllTodos(): Promise<Todo[]> {
-    return await this.find();
+  async getAllTodos(): Promise<ReturnTodoType[]> {
+    return await this.find({
+      select: SELECTED_COLUMNS,
+    });
   }
 
-  async getTodoDetail(id: string): Promise<Todo> {
-    return await this.findOneBy({ id });
+  async getTodoDetail(id: string): Promise<ReturnTodoType> {
+    return await this.findOne({
+      select: SELECTED_COLUMNS,
+      where: { id },
+    });
   }
 
   async createTodo(
     createTodoRequestDTO: CreateTodoRequestDTO,
     imagePath: string,
-  ): Promise<Todo> {
+  ): Promise<ReturnTodoType> {
     const { title, isCompleted } = createTodoRequestDTO;
     const newTodo = this.create({
       id: uuidv4(),
@@ -33,27 +48,38 @@ export class TodoRepository extends Repository<Todo> {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
-    await this.save(newTodo);
-    return newTodo;
+    const saved = await this.save(newTodo);
+    return {
+      id: saved.id,
+      title: saved.title,
+      isCompleted: saved.isCompleted,
+      imgUrl: saved.imgUrl,
+    };
   }
 
   async updateTodo(
     id: string,
     updateTodoDTO: UpdateTodoRequestDTO,
-  ): Promise<Todo> {
+  ): Promise<ReturnTodoType> {
     const { title, isCompleted } = updateTodoDTO;
     const currentTodo = await this.findOneBy({ id });
     const updatedTodo: Todo = {
       ...currentTodo,
-      title,
-      isCompleted: !!isCompleted,
+      title: title || currentTodo.title,
+      isCompleted:
+        isCompleted === undefined ? currentTodo.isCompleted : !!isCompleted,
       updatedAt: new Date().toISOString(),
     };
     await this.update(id, updatedTodo);
-    return updatedTodo;
+    return {
+      id: updatedTodo.id,
+      title: updatedTodo.title,
+      isCompleted: updatedTodo.isCompleted,
+      imgUrl: updatedTodo.imgUrl,
+    };
   }
 
-  async deleteTodo(id): Promise<Todo[]> {
+  async deleteTodo(id: string): Promise<ReturnTodoType[]> {
     await this.delete({ id });
     const todos = await this.getAllTodos();
     return todos;

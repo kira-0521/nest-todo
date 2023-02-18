@@ -1,13 +1,14 @@
-import { Todo } from 'src/entities/todo.entity';
-
+import { ReturnTodoType } from 'src/@types/todo';
 export class FindAllTodoResponseDTO {
-  todos: Todo[];
+  todos: ReturnTodoType[];
+  constructor(todos: ReturnTodoType[]) {
+    this.todos = todos;
+  }
 }
 
 export class FindOneTodoResponseDTO {
-  id: string;
-  title: string;
-  isCompleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  todo: ReturnTodoType;
+  constructor(todo: ReturnTodoType) {
+    this.todo = todo;
+  }
 }
