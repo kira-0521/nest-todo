@@ -7,7 +7,7 @@ import { Todo } from 'src/entities/todo.entity';
 import { ReturnTodoType } from 'src/@types/todo';
 import { CreateTodoRequestDTO, UpdateTodoRequestDTO } from 'src/requests/todo';
 
-const SELECTED_COLUMNS: { [k in keyof Todo]: boolean } = {
+const SELECTED_COLUMN: { [k in keyof Todo]: boolean } = {
   id: true,
   title: true,
   isCompleted: true,
@@ -24,13 +24,13 @@ export class TodoRepository extends Repository<Todo> {
 
   async getAllTodos(): Promise<ReturnTodoType[]> {
     return await this.find({
-      select: SELECTED_COLUMNS,
+      select: SELECTED_COLUMN,
     });
   }
 
   async getTodoDetail(id: string): Promise<ReturnTodoType> {
     return await this.findOne({
-      select: SELECTED_COLUMNS,
+      select: SELECTED_COLUMN,
       where: { id },
     });
   }
