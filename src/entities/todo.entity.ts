@@ -14,9 +14,9 @@ export class Todo {
   @Column({ length: 256, nullable: true })
   imgUrl: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   createdAt: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   updatedAt: string;
 }
