@@ -1,5 +1,8 @@
-import { Todo } from 'src/entities/todo.entity';
+import { ReturnTodoType } from 'src/@types/todo';
 
 export class DeleteTodoResponseDTO {
-  todos: Todo[];
+  todos: ReturnTodoType[];
+  constructor(todos: ReturnTodoType[]) {
+    this.todos = todos;
+  }
 }

@@ -14,12 +14,12 @@ export class TodoService {
   constructor(private todoRepository: TodoRepository) {}
   async findAll(): Promise<FindAllTodoResponseDTO> {
     const todos = await this.todoRepository.getAllTodos();
-    return { todos };
+    return new FindAllTodoResponseDTO(todos);
   }
 
   async findOne(id: string): Promise<FindOneTodoResponseDTO> {
     const todo = await this.todoRepository.getTodoDetail(id);
-    return todo;
+    return new FindOneTodoResponseDTO(todo);
   }
 
   async createTodo(
@@ -37,11 +37,12 @@ export class TodoService {
     id: string,
     updateTodoDTO: UpdateTodoRequestDTO,
   ): Promise<UpdateTodoResponseDTO> {
-    return await this.todoRepository.updateTodo(id, updateTodoDTO);
+    const updatedTodo = await this.todoRepository.updateTodo(id, updateTodoDTO);
+    return new UpdateTodoResponseDTO(updatedTodo);
   }
 
   async deleteTodo(id: string): Promise<DeleteTodoResponseDTO> {
     const todos = await this.todoRepository.deleteTodo(id);
-    return { todos };
+    return new DeleteTodoResponseDTO(todos);
   }
 }

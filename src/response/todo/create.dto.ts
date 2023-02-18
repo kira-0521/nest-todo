@@ -1,8 +1,8 @@
-import { Todo } from 'src/@types/todo';
+import { ReturnTodoType } from 'src/@types/todo';
 
 export class CreateTodoResponseDTO {
-  todo: Todo;
-  constructor(todo: Todo) {
+  todo: ReturnTodoType;
+  constructor(todo: ReturnTodoType) {
     this.todo = todo;
   }
 }

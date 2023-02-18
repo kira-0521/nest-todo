@@ -1,7 +1,9 @@
+import { ReturnTodoType } from 'src/@types/todo';
+
 export class UpdateTodoResponseDTO {
-  id: string;
-  title: string;
-  isCompleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  todo: ReturnTodoType;
+  constructor(todo: ReturnTodoType) {
+    console.log('todo: ', todo);
+    this.todo = todo;
+  }
 }
