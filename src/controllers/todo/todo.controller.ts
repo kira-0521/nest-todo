@@ -35,6 +35,7 @@ import { GetTodoId } from 'src/decorators/todo.decorator';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
+  @SetMetadata('roles', ['admin'])
   async findAll(): Promise<FindAllTodoResponseDTO> {
     return await this.todoService.findAll();
   }
