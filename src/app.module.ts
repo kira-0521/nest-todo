@@ -12,6 +12,7 @@ import { CorsMiddleware } from './middlewares/cors.middleware';
 import { logger } from './middlewares/logger.middleware';
 
 import { TodoModule } from './modules/todo/todo.module';
+import { ModulesModule } from './auth/src/modules/modules.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { TodoModule } from './modules/todo/todo.module';
       },
       inject: [ConfigService],
     }),
+    ModulesModule,
   ],
   controllers: [],
   providers: [],
