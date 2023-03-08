@@ -12,6 +12,7 @@ import { CorsMiddleware } from './middlewares/cors.middleware';
 import { logger } from './middlewares/logger.middleware';
 
 import { TodoModule } from './modules/todo/todo.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -36,9 +37,8 @@ import { TodoModule } from './modules/todo/todo.module';
       },
       inject: [ConfigService],
     }),
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
