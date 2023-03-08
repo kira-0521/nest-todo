@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { META } from 'src/constants';
 
 const matchRole = (roles: string[], userRole: string) => {
   return roles.some((role) => userRole === role);
@@ -15,7 +14,7 @@ export class RolesGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const handlerRoles = this.reflector.get<string[]>(
-      META.roles,
+      'roles',
       context.getHandler(),
     );
 

@@ -29,7 +29,7 @@ import {
 
 import { TodoService } from 'src/services/todo/todo.service';
 import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
-import { BASE_URL, TODO_IMAGE_FILE_PATH } from 'src/constants';
+import { BASE_URL, META, TODO_IMAGE_FILE_PATH } from 'src/constants';
 import { GetTodoId } from 'src/decorators/todo.decorator';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorator';
@@ -38,7 +38,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
-  @Roles('admin')
+  @Roles(META.roles.admin)
   @UseGuards(RolesGuard)
   async findAll(): Promise<FindAllTodoResponseDTO> {
     return await this.todoService.findAll();
