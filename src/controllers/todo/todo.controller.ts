@@ -30,12 +30,13 @@ import { TodoService } from 'src/services/todo/todo.service';
 import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
 import { BASE_URL, TODO_IMAGE_FILE_PATH } from 'src/constants';
 import { GetTodoId } from 'src/decorators/todo.decorator';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
-  @SetMetadata('roles', ['admin'])
+  @Roles('admin')
   async findAll(): Promise<FindAllTodoResponseDTO> {
     return await this.todoService.findAll();
   }
