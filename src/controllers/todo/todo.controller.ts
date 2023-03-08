@@ -29,6 +29,7 @@ import {
 import { TodoService } from 'src/services/todo/todo.service';
 import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
 import { BASE_URL, TODO_IMAGE_FILE_PATH } from 'src/constants';
+import { GetTodoId } from 'src/decorators/todo.decorator';
 
 @Controller('todo')
 export class TodoController {
@@ -73,7 +74,9 @@ export class TodoController {
   @Delete(':id')
   async deleteTodo(
     @Param() param: DeleteTodoRequestDTO,
+    @GetTodoId() id: string,
   ): Promise<DeleteTodoResponseDTO> {
+    console.log('id: ', id);
     return await this.todoService.deleteTodo(param.id);
   }
 }
