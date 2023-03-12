@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   UploadedFile,
@@ -28,25 +29,28 @@ import {
 
 import { TodoService } from 'src/services/todo/todo.service';
 import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
-import { BASE_URL, TODO_IMAGE_FILE_PATH } from 'src/constants';
+import { BASE_URL, META, TODO_IMAGE_FILE_PATH } from 'src/constants';
 import { GetTodoId } from 'src/decorators/todo.decorator';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
+  @Roles(META.roles.admin)
   async findAll(): Promise<FindAllTodoResponseDTO> {
     return await this.todoService.findAll();
   }
 
   @Get(':id')
   async findOne(
-    @Param() { id }: FindOneTodoRequestDTO,
+    @Param('id') { id }: FindOneTodoRequestDTO,
   ): Promise<FindOneTodoResponseDTO> {
     return await this.todoService.findOne(id);
   }
 
   @Post()
+  @Roles(META.roles.admin)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
