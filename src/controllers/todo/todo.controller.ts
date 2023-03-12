@@ -4,10 +4,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -31,7 +31,6 @@ import { TodoService } from 'src/services/todo/todo.service';
 import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
 import { BASE_URL, META, TODO_IMAGE_FILE_PATH } from 'src/constants';
 import { GetTodoId } from 'src/decorators/todo.decorator';
-import { RolesGuard } from 'src/guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('todo')
@@ -39,19 +38,19 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
   @Get()
   @Roles(META.roles.admin)
-  @UseGuards(RolesGuard)
   async findAll(): Promise<FindAllTodoResponseDTO> {
     return await this.todoService.findAll();
   }
 
   @Get(':id')
   async findOne(
-    @Param() { id }: FindOneTodoRequestDTO,
+    @Param('id') { id }: FindOneTodoRequestDTO,
   ): Promise<FindOneTodoResponseDTO> {
     return await this.todoService.findOne(id);
   }
 
   @Post()
+  @Roles(META.roles.admin)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
