@@ -5,9 +5,11 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import configuration from 'src/config/configuration';
 import { TodoController } from './controllers/todo/todo.controller';
+import { RolesGuard } from './guards/roles.guard';
 import { CorsMiddleware } from './middlewares/cors.middleware';
 import { logger } from './middlewares/logger.middleware';
 
@@ -38,7 +40,12 @@ import { TodoModule } from './modules/todo/todo.module';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
