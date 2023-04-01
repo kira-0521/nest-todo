@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ERROR_MESSAGE } from 'src/constants';
 import { TodoRepository } from 'src/repositories/todo/todo.repository';
 import { CreateTodoRequestDTO, UpdateTodoRequestDTO } from 'src/requests/todo';
 import {
@@ -26,6 +27,14 @@ export class TodoService {
     createTodoDTO: CreateTodoRequestDTO,
     imagePath: string,
   ): Promise<CreateTodoResponseDTO> {
+    const isExists = await this.todoRepository.checkTodoExists(
+      createTodoDTO.title,
+    );
+
+    if (isExists) {
+      throw new Error(ERROR_MESSAGE.TODO_EXISTS);
+    }
+
     const newTodo = await this.todoRepository.createTodo(
       createTodoDTO,
       imagePath,

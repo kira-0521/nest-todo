@@ -6,3 +6,7 @@ export const META = {
     admin: 'admin',
   },
 };
+
+export const ERROR_MESSAGE = {
+  TODO_EXISTS: 'Todo title already exists',
+};
