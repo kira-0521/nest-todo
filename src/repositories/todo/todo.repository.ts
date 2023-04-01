@@ -35,6 +35,14 @@ export class TodoRepository extends Repository<Todo> {
     });
   }
 
+  async checkTodoExists(title: string): Promise<boolean> {
+    const todo = await this.findOne({
+      select: SELECTED_COLUMN,
+      where: { title },
+    });
+    return !!todo;
+  }
+
   async createTodo(
     createTodoRequestDTO: CreateTodoRequestDTO,
     imagePath: string,

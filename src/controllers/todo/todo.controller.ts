@@ -32,10 +32,14 @@ import { generateFilename } from 'src/interceptors/todo/image-file.interceptor';
 import { BASE_URL, META, TODO_IMAGE_FILE_PATH } from 'src/constants';
 import { GetTodoId } from 'src/decorators/todo.decorator';
 import { Roles } from 'src/decorators/roles.decorator';
+import { ErrorsInterceptor } from 'src/interceptors/errors.interceptor';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
 
+@UseInterceptors(ErrorsInterceptor)
 @Controller('todo')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
+  @UseInterceptors(LoggingInterceptor)
   @Get()
   @Roles(META.roles.admin)
   async findAll(): Promise<FindAllTodoResponseDTO> {
